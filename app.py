@@ -11,9 +11,8 @@ from psycopg2 import pool  # noqa: F401
 from prompts import get_sql_prompt
 
 # Load environment variables
-load_dotenv()
-API_KEY = os.getenv("api_key")
-DB_URL = os.getenv("DB_URL")
+API_KEY = st.secrets["api_key"]
+DB_URL = st.secrets["DB_URL"]
 
 # AI Model
 sql_generator = GoogleGenerativeAI(model="gemini-pro", google_api_key=API_KEY)
