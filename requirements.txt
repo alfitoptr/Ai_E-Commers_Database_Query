@@ -1,0 +1,6 @@
+streamlit 
+pandas 
+psycopg2 
+langchain_google_genai 
+google-generativeai 
+python-dotenv
