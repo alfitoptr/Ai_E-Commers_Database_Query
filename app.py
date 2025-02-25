@@ -63,34 +63,28 @@ def execute_query(sql_query):
 
 def generate_insight(user_query, df):
     if df.empty:
-        insight_prompt = """
-        The SQL query returned no results. This could be because:
-        1. The data does not exist in the database.
-        2. The query filters are too restrictive.
-        3. There is an issue with the query logic.
-        
-        Please provide a helpful explanation for the user.
-        """
-    else:
-        table_output = df.to_string(index=False)
-        insight_prompt = f"""
-        You are an expert data analyst. Your task is to analyze the SQL result and generate meaningful insights.
-        
-        Instructions:
-        - Interpret the SQL result **ONLY** based on the user query.
-        - **DO NOT** make up data that is not present in the SQL result.
-        - Provide concise yet informative insights in a well-structured paragraph.
+        return "No data was returned from the query. This could be due to missing records, restrictive filters, or an issue with the query logic."
 
-        User Question:
-        {user_query}
+    table_output = df.to_string(index=False)
 
-        SQL Result (Table Format):
-        ```
-        {table_output}
-        ```
+    insight_prompt = f"""
+    You are an expert data analyst. Your task is to analyze the SQL result and generate meaningful insights.
 
-        Insight:
-        """
+    Instructions:
+    - Interpret the SQL result **ONLY** based on the user query.
+    - **DO NOT** make up data that is not present in the SQL result.
+    - Provide concise yet informative insights in a well-structured paragraph.
+
+    User Question:
+    {user_query}
+
+    SQL Result (Table Format):
+    ```
+    {table_output}
+    ```
+
+    Insight:
+    """
 
     final_response = insight_generator.invoke(insight_prompt)
     return final_response
