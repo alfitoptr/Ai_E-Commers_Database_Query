@@ -14,6 +14,7 @@ The dataset used in this project is the Olist E-Commerce Dataset, which contains
 ```
 
 **Features**
+
 ✅ Natural Language Querying: Users can input database-related questions, and the AI will generate SQL queries automatically.
 
 ✅ SQL Query Execution: The generated SQL queries are executed on a PostgreSQL database.
