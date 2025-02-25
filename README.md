@@ -25,7 +25,8 @@ The dataset used in this project is the Olist E-Commerce Dataset, which contains
 - Dataset Overview: Explanation of the Olist dataset.**
 - AI Assistant: SQL generation and insights panel.
 
-🛠 **Installation**
+
+**Installation**
 Clone the Repository
 ```bash
 git clone https://github.com/your-username/your-repository.git
