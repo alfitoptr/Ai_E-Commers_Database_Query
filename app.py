@@ -10,7 +10,6 @@ from psycopg2 import pool  # noqa: F401
 
 from prompts import get_sql_prompt
 
-# Load environment variables
 API_KEY = st.secrets["api_key"]
 DB_URL = st.secrets["DB_URL"]
 
@@ -22,7 +21,6 @@ insight_generator = GoogleGenerativeAI(model="gemini-pro", google_api_key=API_KE
 connection_pool = psycopg2.pool.SimpleConnectionPool(minconn=1, maxconn=10, dsn=DB_URL)
 
 
-# Function to clean SQL query
 def clean_sql_query(sql_query):
     cleaned_query = sql_query.replace("\\n", " ").replace("\\", "")
     cleaned_query = re.sub(r"```sql|```", "", cleaned_query).strip()
@@ -30,7 +28,6 @@ def clean_sql_query(sql_query):
     return cleaned_query
 
 
-# Function to clean AI response
 def clean_response(response):
     cleaned_response = response.strip()
     cleaned_response = re.sub(r'["\'`]+', "", cleaned_response)
@@ -39,7 +36,6 @@ def clean_response(response):
     return cleaned_response
 
 
-# Function to execute SQL query
 def execute_query(sql_query):
     conn = None
     cursor = None
@@ -65,7 +61,6 @@ def execute_query(sql_query):
             connection_pool.putconn(conn)
 
 
-# Function to generate AI insights
 def generate_insight(user_query, df):
     if df.empty:
         insight_prompt = """
@@ -101,15 +96,13 @@ def generate_insight(user_query, df):
     return final_response
 
 
-# Streamlit UI
 st.title("E-Commerce AI Query Assistant")
 
-# Create centered tabs
 tab1, tab2 = st.tabs(["📖 Dataset Overview", "🤖 AI Assistant"])
 
-### TAB 1: Dataset Overview
+# TAB 1: Dataset Overview
 with tab1:
-    st.header("📖 Olist E-Commerce Dataset")
+    st.header("Olist E-Commerce Dataset")
     st.write("""
     **Olist Dataset** is a collection of data from a Brazilian e-commerce marketplace.  
     This dataset includes transactions, customers, products, reviews, and product categories.  
@@ -130,12 +123,21 @@ with tab1:
     **Use the AI Assistant tab to generate SQL queries automatically!**
     """)
 
-### TAB 2: AI Assistant
+# TAB 2: AI Assistant
 with tab2:
-    st.header("🤖 AI Database Query Assistant")
+    st.header("AI Database Query Assistant")
+    st.write("💡 **Examples of questions you can ask:**")
+    st.markdown("""
+    - What was the total sales in 2018?
+    - Which 5 product categories generate the highest revenue?
+    - What is the distribution of product ratings from customers?
+    - Which cities have the highest number of orders?
+    """)
 
-    # User input for query
-    user_query = st.text_area("Enter your database-related question:")
+    user_query = st.text_area(
+        "Enter your database-related question:",
+        placeholder="Example: What was the total sales in 2018?",
+    )
 
     if st.button("Generate"):
         if user_query:
