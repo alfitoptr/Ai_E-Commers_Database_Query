@@ -3,6 +3,8 @@
 **Overview**
 This project is an AI-powered database query assistant that helps users interact with a PostgreSQL database using natural language. The application is built with Streamlit, LangChain, and Google Gemini AI, enabling automatic SQL query generation and insightful data analysis.
 
+🔗 Live Demo: [AI Database Query Assistant](https://ai-database-query.streamlit.app/)
+
 The dataset used in this project is the Olist E-Commerce Dataset, which contains transactional data from a Brazilian e-commerce marketplace between 2017 and 2018.
 
 **Project Structure**
