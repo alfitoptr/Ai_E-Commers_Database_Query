@@ -6,6 +6,7 @@ sql_prompt = """
     4. Use `JOIN` instead of subqueries where possible.
     5. Always end the query with a semicolon (;).
     6. if the question cannot be answered given the database schema, return "I do not know"
+    
     Database Schema:
     - customers
       - customer_id (Primary Key): Unique identifier for each customer.
@@ -201,12 +202,31 @@ sql_prompt = """
         GROUP BY c.customer_id, c.customer_city, c.customer_state
         ORDER BY total_spent DESC
         LIMIT 5;
-
+        
+    16. What is the total revenue generated each month in 2018?
+        SQL Query:
+        SELECT DATE_TRUNC('month', o.order_purchase_timestamp) AS month, 
+        SUM(oi.price) AS total_revenue
+        FROM orders o
+        JOIN order_items oi ON o.order_id = oi.order_id
+        WHERE o.order_purchase_timestamp BETWEEN '2018-01-01' AND '2018-12-31'
+        GROUP BY month
+        ORDER BY month;
+    
+    17. Which day of the week has the highest number of orders?
+        SELECT TO_CHAR(o.order_purchase_timestamp, 'Day') AS order_day, 
+        COUNT(o.order_id) AS total_orders
+        FROM orders o
+        GROUP BY order_day
+        ORDER BY total_orders DESC;
+        
+        
     Now, generate an SQL query for the following question.
 
     Question: {user_query}
     SQL Query:
     """
+
 
 def get_sql_prompt(user_query):
     return sql_prompt.format(user_query=user_query)
