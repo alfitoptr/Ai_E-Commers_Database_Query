@@ -14,8 +14,8 @@ API_KEY = st.secrets["api_key"]
 DB_URL = st.secrets["DB_URL"]
 
 # AI Model
-sql_generator = GoogleGenerativeAI(model="gemini-pro", google_api_key=API_KEY)
-insight_generator = GoogleGenerativeAI(model="gemini-pro", google_api_key=API_KEY)
+sql_generator = GoogleGenerativeAI(model="gemini-2.0-flash-exp", google_api_key=API_KEY)
+insight_generator = GoogleGenerativeAI(model="gemini-2.0-flash-exp", google_api_key=API_KEY)
 
 # Database Connection Pool
 connection_pool = psycopg2.pool.SimpleConnectionPool(minconn=1, maxconn=10, dsn=DB_URL)
@@ -26,14 +26,6 @@ def clean_sql_query(sql_query):
     cleaned_query = re.sub(r"```sql|```", "", cleaned_query).strip()
     cleaned_query = re.sub(r"\s+", " ", cleaned_query).strip()
     return cleaned_query
-
-
-def clean_response(response):
-    cleaned_response = response.strip()
-    cleaned_response = re.sub(r'["\'`]+', "", cleaned_response)
-    cleaned_response = re.sub(r"\s*\n\s*", " ", cleaned_response)
-    cleaned_response = re.sub(r"\s+", " ", cleaned_response).strip()
-    return cleaned_response
 
 
 def execute_query(sql_query):
